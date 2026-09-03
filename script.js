@@ -1,35 +1,39 @@
-const nav = document.querySelector('.nav');
-const menu = document.querySelector('.menu');
+// THE STOCK ROOM - Website interactions
 
-menu.addEventListener('click', () => {
-  nav.classList.toggle('mobile');
-});
-
-document.querySelectorAll('.nav nav a').forEach(a => {
-  a.addEventListener('click', () => nav.classList.remove('mobile'));
-});
-
-const modal = document.getElementById('modal');
-const title = document.getElementById('modalTitle');
-
-document.querySelectorAll('[data-course]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    title.textContent = btn.dataset.course;
-    modal.classList.add('open');
-    modal.setAttribute('aria-hidden', 'false');
+document.addEventListener("DOMContentLoaded", () => {
+  // Smooth scrolling for internal links
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener("click", function (e) {
+      const target = document.querySelector(this.getAttribute("href"));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+    });
   });
-});
 
-document.querySelector('.close').addEventListener('click', () => {
-  modal.classList.remove('open');
-  modal.setAttribute('aria-hidden', 'true');
-});
+  // Course modal
+  const modal = document.getElementById("courseModal");
+  const closeButtons = document.querySelectorAll(
+    ".close-modal, .modal-close, [data-close-modal]"
+  );
 
-modal.addEventListener('click', e => {
-  if (e.target === modal) {
-    modal.classList.remove('open');
-    modal.setAttribute('aria-hidden', 'true');
-  }
-});
+  document.querySelectorAll("[data-course]").forEach(button => {
+    button.addEventListener("click", () => {
+      if (modal) modal.classList.add("active");
+    });
+  });
 
-document.getElementById('year').textContent = new Date().getFullYear();
+  closeButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      if (modal) modal.classList.remove("active");
+    });
+  });
+
+  if (modal) {
+    modal.addEventListener("click", e => {
+      if (e.target === modal) {
+        modal.class
