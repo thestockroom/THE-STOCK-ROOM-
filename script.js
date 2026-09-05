@@ -1,39 +1,88 @@
-// THE STOCK ROOM - Website interactions
+// THE STOCK ROOM — Interactive Website
 
-document.addEventListener("DOMContentLoaded", () => {
-  // Smooth scrolling for internal links
-  document.querySelectorAll('a[href^="#"]').forEach(link => {
-    link.addEventListener("click", function (e) {
-      const target = document.querySelector(this.getAttribute("href"));
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
+const nav = document.querySelector(".nav");
+const menu = document.querySelector(".menu");
+
+if (menu && nav) {
+  menu.addEventListener("click", () => {
+    nav.classList.toggle("mobile");
+  });
+}
+
+document.querySelectorAll(".nav a").forEach(link => {
+  link.addEventListener("click", () => {
+    nav.classList.remove("mobile");
+  });
+});
+
+// Course modal
+const modal = document.getElementById("modal");
+const closeBtn = document.querySelector(".close");
+
+document.querySelectorAll(".course-btn").forEach(button => {
+  button.addEventListener("click", () => {
+    if (modal) {
+      modal.classList.add("open");
+      modal.setAttribute("aria-hidden", "false");
+    }
+  });
+});
+
+if (closeBtn) {
+  closeBtn.addEventListener("click", () => {
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+  });
+}
+
+if (modal) {
+  modal.addEventListener("click", event => {
+    if (event.target === modal) {
+      modal.classList.remove("open");
+      modal.setAttribute("aria-hidden", "true");
+    }
+  });
+}
+
+// FAQ accordion
+document.querySelectorAll(".faq-q").forEach(question => {
+  question.addEventListener("click", () => {
+    const answer = question.nextElementSibling;
+    const icon = question.querySelector("span");
+
+    answer.classList.toggle("open");
+
+    if (icon) {
+      icon.textContent = answer.classList.contains("open") ? "−" : "+";
+    }
+  });
+});
+
+// Footer year
+const year = document.getElementById("year");
+
+if (year) {
+  year.textContent = new Date().getFullYear();
+}
+
+// Smooth reveal animation
+const revealElements = document.querySelectorAll(
+  ".section, .course, .steps div, .leader-card, .affiliate-card, .portrait"
+);
+
+const observer = new IntersectionObserver(
+  entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
       }
     });
-  });
+  },
+  { threshold: 0.12 }
+);
 
-  // Course modal
-  const modal = document.getElementById("courseModal");
-  const closeButtons = document.querySelectorAll(
-    ".close-modal, .modal-close, [data-close-modal]"
-  );
-
-  document.querySelectorAll("[data-course]").forEach(button => {
-    button.addEventListener("click", () => {
-      if (modal) modal.classList.add("active");
-    });
-  });
-
-  closeButtons.forEach(button => {
-    button.addEventListener("click", () => {
-      if (modal) modal.classList.remove("active");
-    });
-  });
-
-  if (modal) {
-    modal.addEventListener("click", e => {
-      if (e.target === modal) {
-        modal.class
+revealElements.forEach(element => {
+  element.classList.add("reveal");
+  observer.observe(element);
+});
