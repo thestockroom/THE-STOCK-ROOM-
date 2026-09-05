@@ -1,88 +1,137 @@
-// THE STOCK ROOM — Interactive Website
+// THE STOCK ROOM — Site-wide JavaScript
 
-const nav = document.querySelector(".nav");
-const menu = document.querySelector(".menu");
+document.addEventListener("DOMContentLoaded", () => {
 
-if (menu && nav) {
-  menu.addEventListener("click", () => {
-    nav.classList.toggle("mobile");
-  });
-}
+  // =========================
+  // MOBILE MENU
+  // =========================
+  const menu = document.getElementById("menu");
+  const nav = document.querySelector("nav");
 
-document.querySelectorAll(".nav a").forEach(link => {
-  link.addEventListener("click", () => {
-    nav.classList.remove("mobile");
-  });
-});
-
-// Course modal
-const modal = document.getElementById("modal");
-const closeBtn = document.querySelector(".close");
-
-document.querySelectorAll(".course-btn").forEach(button => {
-  button.addEventListener("click", () => {
-    if (modal) {
-      modal.classList.add("open");
-      modal.setAttribute("aria-hidden", "false");
-    }
-  });
-});
-
-if (closeBtn) {
-  closeBtn.addEventListener("click", () => {
-    modal.classList.remove("open");
-    modal.setAttribute("aria-hidden", "true");
-  });
-}
-
-if (modal) {
-  modal.addEventListener("click", event => {
-    if (event.target === modal) {
-      modal.classList.remove("open");
-      modal.setAttribute("aria-hidden", "true");
-    }
-  });
-}
-
-// FAQ accordion
-document.querySelectorAll(".faq-q").forEach(question => {
-  question.addEventListener("click", () => {
-    const answer = question.nextElementSibling;
-    const icon = question.querySelector("span");
-
-    answer.classList.toggle("open");
-
-    if (icon) {
-      icon.textContent = answer.classList.contains("open") ? "−" : "+";
-    }
-  });
-});
-
-// Footer year
-const year = document.getElementById("year");
-
-if (year) {
-  year.textContent = new Date().getFullYear();
-}
-
-// Smooth reveal animation
-const revealElements = document.querySelectorAll(
-  ".section, .course, .steps div, .leader-card, .affiliate-card, .portrait"
-);
-
-const observer = new IntersectionObserver(
-  entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("visible");
-        observer.unobserve(entry.target);
-      }
+  if (menu && nav) {
+    menu.addEventListener("click", () => {
+      nav.classList.toggle("open");
     });
-  },
-  { threshold: 0.12 }
-);
 
-revealElements.forEach(element => {
-  element.classList.add("reveal");
-  observer.observe(element);
+    document.querySelectorAll("nav a").forEach(link => {
+      link.addEventListener("click", () => {
+        nav.classList.remove("open");
+      });
+    });
+  }
+
+
+  // =========================
+  // FOOTER YEAR
+  // =========================
+  const year = document.getElementById("year");
+
+  if (year) {
+    year.textContent = new Date().getFullYear();
+  }
+
+
+  // =========================
+  // SCROLL REVEAL ANIMATION
+  // =========================
+  const elements = document.querySelectorAll(
+    ".cards article, .content, .profile, details, .topic-grid div"
+  );
+
+  if ("IntersectionObserver" in window) {
+
+    const observer = new IntersectionObserver(
+      entries => {
+
+        entries.forEach(entry => {
+
+          if (entry.isIntersecting) {
+
+            entry.target.classList.add("show");
+
+            observer.unobserve(entry.target);
+
+          }
+
+        });
+
+      },
+      {
+        threshold: 0.08
+      }
+    );
+
+    elements.forEach(element => {
+
+      element.classList.add("reveal");
+
+      observer.observe(element);
+
+    });
+
+  } else {
+
+    elements.forEach(element => {
+      element.classList.add("show");
+    });
+
+  }
+
+
+  // =========================
+  // 3D CARD EFFECT
+  // =========================
+  document.querySelectorAll(".cards article").forEach(card => {
+
+    card.addEventListener("pointermove", event => {
+
+      const rect = card.getBoundingClientRect();
+
+      const x =
+        (event.clientX - rect.left) / rect.width - 0.5;
+
+      const y =
+        (event.clientY - rect.top) / rect.height - 0.5;
+
+      card.style.transform =
+        `perspective(700px)
+         rotateX(${-y * 4}deg)
+         rotateY(${x * 4}deg)
+         translateY(-3px)`;
+
+    });
+
+
+    card.addEventListener("pointerleave", () => {
+
+      card.style.transform = "";
+
+    });
+
+  });
+
+
+  // =========================
+  // FAQ
+  // =========================
+  document.querySelectorAll("details").forEach(item => {
+
+    item.addEventListener("toggle", () => {
+
+      if (item.open) {
+
+        document.querySelectorAll("details").forEach(other => {
+
+          if (other !== item) {
+            other.removeAttribute("open");
+          }
+
+        });
+
+      }
+
+    });
+
+  });
+
 });
