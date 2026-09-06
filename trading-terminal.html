@@ -1,19 +1,40 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Trading Terminal | THE STOCK ROOM</title><link rel="stylesheet" href="style.css"></head><body class="page-terminal">
-<header class="nav"><div class="navin"><a class="brand" href="index.html">THE STOCK ROOM</a><button class="menu">☰</button><nav class="links"><a href="index.html">Home</a><a href="all-courses.html">Courses</a><a href="trading-wave.html">Trading Wave</a><a href="ceo.html">CEO</a><a href="team.html">Team</a><a href="demo-trading.html">Demo</a><a href="trading-terminal.html">Terminal</a><a href="leaderboard.html">Leaderboard</a><a href="certificate.html">Certificate</a><a href="learning-journey.html">Learning Journey</a><a href="support-ai.html">Support AI</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a><a href="login.html">Login</a></nav></div></header><div class="watermark">THE STOCK ROOM</div><div class="market-ticker" aria-label="Live market display"><span>MARKET FEED</span><b>BTC/USDT</b><strong data-live-price>—</strong><em data-live-status>LIVE • connecting…</em></div><div class="scene3d" aria-hidden="true"><div class="ring"></div><div class="ring r2"></div><div class="orb"></div><div class="label3d">MARKET TERMINAL · THE STOCK ROOM</div></div><section class='wrap'>
-<h1 class='section-title'>Trading Terminal</h1>
-<p class='sub'>Live market display + virtual demo terminal. Market prices are external live data; every order is simulation-only.</p>
-<div class='terminal'>
-<div class='toolbar market-toolbar'>
-<select id='marketSymbol' aria-label='Market'><option value='BINANCE:BTCUSDT'>BTC/USDT</option><option value='OANDA:XAUUSD'>Gold / XAUUSD</option><option value='OANDA:XAGUSD'>Silver / XAGUSD</option></select>
-<select aria-label='Timeframe'><option>1m</option><option>5m</option><option>15m</option><option>30m</option><option>1H</option><option>4H</option><option>1D</option><option>1W</option></select>
-<span class='live-pill' data-live-status>LIVE • connecting…</span><span class='live-price'>$<strong data-live-price>—</strong></span>
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Trading Terminal | THE STOCK ROOM</title><link rel="stylesheet" href="style.css"></head>
+<body class="page-terminal">
+<header class="nav"><div class="navin"><a class="brand" href="index.html">THE STOCK ROOM</a><button class="menu" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false">☰</button><nav class="links" id="siteNav">
+<a href="index.html">Home</a><a href="packages.html">Packages</a><a href="all-courses.html">Courses</a><a href="trading-wave.html">Trading Wave</a><a href="ceo.html">CEO</a><a href="team.html">Team</a><a href="demo-trading.html">Demo</a><a href="trading-terminal.html">Terminal</a><a href="leaderboard.html">Leaderboard</a><a href="certificate.html">Certificate</a><a href="learning-journey.html">Learning Journey</a><a href="support-ai.html">Support AI</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a><a href="login.html">Login</a></nav></div></header>
+<div class="watermark">THE STOCK ROOM</div>
+<div class="scene3d" aria-hidden="true"><div class="ring"></div><div class="ring r2"></div><div class="orb"></div><div class="label3d">EXCHANGE-STYLE DEMO TERMINAL · VIRTUAL ONLY</div></div>
+<section class="wrap terminal-page">
+<h1 class="section-title">Trading Terminal</h1><p class="sub">BTC, Gold and Silver market charts with a fully simulated demo order system. No real broker orders are sent.</p>
+<div class="terminal-shell" id="terminalApp">
+  <div class="terminal-top">
+    <div class="symbol-tabs"><button class="symbol-tab active" data-symbol="BTCUSDT" data-tv="BINANCE:BTCUSDT" data-name="BTC/USDT">₿ BTC/USDT</button><button class="symbol-tab" data-symbol="XAUUSD" data-tv="OANDA:XAUUSD" data-name="Gold / USD">🥇 Gold/USD</button><button class="symbol-tab" data-symbol="XAGUSD" data-tv="OANDA:XAGUSD" data-name="Silver / USD">🥈 Silver/USD</button></div>
+    <div class="terminal-actions"><button type="button" id="fullscreenBtn">⛶ Full Screen Chart</button><button type="button" id="resetTerminal">↻ Reset</button></div>
+  </div>
+  <div class="account-strip"><div><span>Virtual Balance</span><strong id="balance">$5,000.00</strong></div><div><span>Equity</span><strong id="equity">$5,000.00</strong></div><div><span>Open P&amp;L</span><strong id="openPnl">$0.00</strong></div><div><span>Target</span><strong>$400</strong></div><div><span>Max Lot</span><strong>0.20</strong></div><div><span>Days</span><strong>0 / 7</strong></div></div>
+  <div class="terminal-grid">
+    <main class="chart-panel">
+      <div class="chart-head"><div><b id="marketName">BTC/USDT</b><small id="feedStatus">Live chart feed</small></div><div class="tf-row"><button class="tf active" data-interval="1">1m</button><button class="tf" data-interval="5">5m</button><button class="tf" data-interval="15">15m</button><button class="tf" data-interval="30">30m</button><button class="tf" data-interval="60">1H</button><button class="tf" data-interval="240">4H</button><button class="tf" data-interval="D">1D</button><button class="tf" data-interval="W">1W</button></div></div>
+      <div class="tv-wrap" id="chartBox"><div class="tv-widget" id="tvChart"></div><button class="chart-fullscreen" id="chartFullscreen" type="button">⛶ Full Chart</button></div>
+      <div class="chart-note">TradingView chart • zoom/pan • crosshair • indicators • drawing tools • chart settings. Gold/Silver availability depends on the selected public market-data feed.</div>
+    </main>
+    <aside class="order-panel">
+      <div class="quote-card"><span>Selected market</span><h2 id="quoteName">BTC/USDT</h2><div class="quote-price" id="quotePrice">$—</div><span id="quoteHint">Chart feed loading…</span></div>
+      <div class="order-ticket"><div class="side-row"><button class="side buy active" id="buyBtn" type="button">BUY</button><button class="side sell" id="sellBtn" type="button">SELL</button></div>
+        <label>Lot size <input id="lotInput" type="number" min="0.01" max="0.20" step="0.01" value="0.01"></label>
+        <div class="price-row"><label>Entry<input id="entryPrice" readonly placeholder="Auto"></label><label>Exit<input id="exitPrice" readonly placeholder="On close"></label></div>
+        <button class="place-order" id="placeOrder" type="button">Place Virtual Order</button><button class="close-position" id="closePosition" type="button" disabled>Close Open Position</button>
+        <p class="order-status" id="orderStatus">Ready. Orders are virtual demo trades only.</p>
+      </div>
+      <div class="position-card"><h3>Open Position</h3><div id="positionEmpty">No open position.</div><div id="positionDetails" hidden></div></div>
+      <div class="history-card"><h3>Trade History</h3><div id="historyList">No trades yet.</div></div>
+    </aside>
+  </div>
 </div>
-<div class='chart tradingview-shell'>
-<iframe id='tvChart' title='Live market chart' src='https://www.tradingview.com/widgetembed/?frameElementId=tradingview_widget&symbol=BINANCE%3ABTCUSDT&interval=5&hidesidetoolbar=0&hidetoptoolbar=0&symboledit=1&saveimage=1&toolbarbg=f5f5f5&studies=%5B%5D&theme=dark&style=1&timezone=Etc%2FUTC&withdateranges=1&hideideas=1&hidelegend=0&hidevolume=0&studies_overrides=%7B%7D' loading='lazy' allowfullscreen></iframe>
-</div>
-<div class='toolbar tool-row'><span>Chart controls:</span><button type='button' onclick="document.getElementById('tvChart').contentWindow?.postMessage({name:'reset_chart'},'*')">Reset</button><button type='button' onclick="alert('Use the chart side toolbar for trendline, horizontal line, rectangle, Fibonacci, measurement and drawing tools.')">Drawing Tools</button><button type='button' onclick="alert('Use the chart settings ⚙ for candle style, colors, grid, indicators and display settings.')">Settings</button></div>
-<div class='grid'>
-<div class='card'><h3>Virtual Order</h3><p>Simulation only. No broker/exchange order is sent.</p><select data-lot-size aria-label='Demo lot size'><option value='0.10'>0.10 lot</option><option value='0.20'>0.20 lot</option></select><div class='demo-actions'><button data-demo-order='buy'>Virtual Buy</button><button data-demo-order='sell'>Virtual Sell</button></div></div>
-<div class='card'><h3>Live Candle Data</h3><p>Time · Open · High · Low · Close · Volume · Change are available through the chart hover/crosshair.</p><strong data-live-change>Live feed</strong></div>
-<div class='card'><h3>Supported Analysis</h3><p>EMA 9/20/50/100/200 · SMA 20/50/100/200 · VWAP · RSI · MACD · Bollinger Bands · Stochastic RSI · ADX · ATR · CCI · Williams %R · OBV · Volume · Fibonacci · S/R · Market Structure · BOS/CHoCH · Liquidity · Supply/Demand.</p></div>
-</div></div></section></section><footer>© <span class="year"></span> THE STOCK ROOM · Educational & demo platform</footer><script src="script.js"></script><script src="live-market.js"></script></body></html>
+<div class="terminal-info grid"><div class="card"><h3>Demo Rules</h3><p>$5,000 initial virtual balance · $400 profit target · 7 trading days · maximum lot size 0.20.</p><a class="btn" href="demo-rules.html">View Rules</a></div><div class="card"><h3>AI Support</h3><p>Get instant help with navigation, course access, demo rules and terminal controls.</p><a class="btn" href="support-ai.html">Open Support AI</a></div><div class="card"><h3>Safety</h3><p>This is an educational simulation. BUY/SELL never sends an order to a broker or exchange.</p></div></div>
+</section>
+<footer>© <span class="year"></span> THE STOCK ROOM · Educational & demo platform</footer>
+<script src="script.js"></script><script src="terminal.js"></script>
+</body></html>
